@@ -8,10 +8,13 @@ flask = "*"
 python-dotenv = "*"
 pytest = "*"
 pytest-flask = "*"
-black = "*"
+black = "~=19.3b0"
 safety = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

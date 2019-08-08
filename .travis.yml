@@ -4,7 +4,8 @@ python:
   - "3.7"
 install:
   - pip install pipenv
-  - pipenv install
+  - pipenv install --pre
+  # remove --pre when black gets around to releasing v1.0
 script:
   - pipenv run safety check
   - pipenv run black . --check
