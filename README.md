@@ -18,3 +18,13 @@ python -m pytest
 
 ### References
 * [Dylan Anthony - Flask REST API tutorial](https://dev.to/dbanty/python-rest-api-flask-basics-3ffn)
+
+---
+
+### Development Notes
+
+#### To-Do List:
+
+- [ ] [Refactor unit tests to match Eric Elliott style.](https://medium.com/javascript-scene/behavior-driven-development-bdd-and-functional-testing-62084ad7f1f2)
+- [ ] Add scalable configuration.
+  - [ ] Add configuration for development, testing, production.
