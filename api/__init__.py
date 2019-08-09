@@ -9,7 +9,7 @@ https://www.patricksoftwareblog.com/structuring-a-flask-project/
 from typing import Optional
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 
 from . import controllers
 
