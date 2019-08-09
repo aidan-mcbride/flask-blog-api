@@ -80,6 +80,14 @@ python -m pytest
   * The unit test report should contain all the information necessary for the person reading it to reproduce the  results.
   * **Unit test report should act as a detailed bug report.**
 
+#### [Given-When-Then](https://martinfowler.com/bliki/GivenWhenThen.html)
+
+* Formula for writing unit tests. Also works better as a formula for creating acceptance tests at a high level.
+  * **Given** a pre-existing state
+  * **When** some event occurs or some input is given
+  * **Then** some change will occur or some output will be given.
+
+
 
 #### [Travis CI](https://travis-ci.org/)
 
