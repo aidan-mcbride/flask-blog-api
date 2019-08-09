@@ -25,6 +25,18 @@ To run all pytest tests from the project's root directory:
 pipenv run python -m pytest
 ```
 
+#### Other Useful Commands
+
+```shell
+pipenv shell			# activate virtual environment
+(env)$ exit				# exit current virtual environment
+
+pipenv run mypy api		# static type check
+pipenv run black <dir>	# format all code in <dir> with black
+```
+
+
+
 ---
 
 ### Stack/Dependencies
@@ -54,6 +66,9 @@ pipenv run python -m pytest
 >  For this project I will be using TravisCI, since that is what the tutorial I am following uses and I do not yet know enough about CI to make my own decisions.
 >  For future projects - and perhaps as a later refactor of this project - I will use GitLab CI, since we already use GitLab internally for other things.
 >  I have also found that doing the same thing in two different systems gives you a better understanding of whatever it is you are doing, so it serves the goal of learning to do CI both in TravisCI and in GitLabCI.
+
+* **Continuous Integration** is simply the practice of integrating small chunks of new code back into the master branch frequently - rather than trying to integrate massive changes once every blue moon - and ensuring that this new code does not break anything.
+* In practice, continuous integration relies on the use of CI tools and platforms that run a suite of automated tests on your entire code base any time something new is committed.
 
 #### Unit Testing
 
