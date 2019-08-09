@@ -9,7 +9,7 @@ https://www.patricksoftwareblog.com/structuring-a-flask-project/
 from typing import Optional
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy # type: ignore
+from flask_sqlalchemy import SQLAlchemy  # type: ignore
 
 from . import controllers
 
@@ -29,6 +29,10 @@ def create_app(config_class: Optional[str] = None) -> Flask:
     app = Flask(__name__)
     configure_app(config_class, app)
     initialize_extensions(app)
+
+    # create database
+    with app.app_context():
+        db.create_all()
 
     # register blueprints in controllers
     controllers.init_app(app)
