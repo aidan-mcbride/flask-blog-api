@@ -4,6 +4,7 @@ mock_articles = [
     {"title": "Blog Post 3", "content": "Post body"},
 ]
 
+
 def test_get_all_articles(client):
     """
     GIVEN a flask application
