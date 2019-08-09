@@ -4,12 +4,25 @@
 
 Simple RESTful api for a simple blog built in Flask; Meant as a learning instrument.
 
-### Tests
+#### Installation
+```shell
+pip install pipenv  # if not already installed
+pipenv install
+```
+
+#### To Run
+```shell
+export FLASK_APP=api
+export FLASK_ENV=development
+pipenv run flask run
+```
+
+#### Tests
 All tests are contained in the directory `tests/`. There is a corresponding test file for each controller file.
 
 To run all pytest tests from the project's root directory:
 ```shell
-python -m pytest
+pipenv run python -m pytest
 ```
 
 ---
