@@ -1,7 +1,16 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 
-articles = Blueprint('articles', __name__, url_prefix='/articles')
+articles = Blueprint("articles", __name__, url_prefix="/articles")
 
-@articles.route('/')
+# MOCK DATA
+# TODO: persist in database
+mock_articles = [
+    {"title": "Blog Post 1", "content": "Post body"},
+    {"title": "Blog Post 2", "content": "Post body"},
+    {"title": "Blog Post 3", "content": "Post body"},
+]
+
+
+@articles.route("/")
 def get_all_articles():
-    return '', 200
+    return jsonify(mock_articles)
