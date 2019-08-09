@@ -9,9 +9,13 @@ https://www.patricksoftwareblog.com/structuring-a-flask-project/
 from typing import Optional
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 from . import controllers
 
+# create instances of extensions
+# instances are global, but are not yet attached to the app
+db = SQLAlchemy()
 
 #################################
 ## ~*~ APPLICATION FACTORY ~*~ ##
@@ -24,6 +28,7 @@ def create_app(config_class: Optional[str] = None) -> Flask:
     """
     app = Flask(__name__)
     configure_app(config_class, app)
+    initialize_extensions(app)
 
     # register blueprints in controllers
     controllers.init_app(app)
@@ -53,3 +58,10 @@ def configure_app(config_class: Optional[str], app: Flask):
         app.config.from_object("config.TestingConfig")
     else:
         app.config.from_object("config.ProductionConfig")
+
+
+def initialize_extensions(app: Flask):
+    """
+    bind instances of extensions to flask app instance
+    """
+    db.init_app(app)

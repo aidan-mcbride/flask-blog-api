@@ -1,7 +1,6 @@
 """
 config.py
 """
-import os
 
 
 class Config(object):
@@ -11,6 +10,10 @@ class Config(object):
 
     DEBUG = False  # default to false as failsafe
     TESTING = False
+
+    SQLALCHEMY_DATABASE_URI = "sqlite:///flask_blog_api.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = False
 
 
 class ProductionConfig(Config):
@@ -36,3 +39,5 @@ class TestingConfig(Config):
     """
 
     TESTING = True
+
+    SQLALCHEMY_DATABASE_URI = "sqlite:///flask_blog_api_testing.db"
