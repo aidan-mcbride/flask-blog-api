@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-def init_app(app):
+def init_app(app: Flask):
     """
     register blueprints
     """

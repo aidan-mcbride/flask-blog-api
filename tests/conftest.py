@@ -9,7 +9,7 @@ from flask import Flask
 
 
 @pytest.fixture
-def app():
+def app() -> Flask:
     """
     create instance of application
     """

@@ -2,8 +2,8 @@ from flask import Flask
 
 from . import controllers
 
-
-def create_app():
+# '-> Flask' indicates the type that this function should return
+def create_app() -> Flask:
     """
     Creates an instance of Flask app
     """

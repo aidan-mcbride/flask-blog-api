@@ -46,3 +46,10 @@ python -m pytest
 
 * Will automatically build and test committed changes to a GitHub repository.
 * Testing specifications are listed in a **`.travis.tml`** file in the root of the project.
+
+#### Static Typing in Python
+
+* Python 3.5 adds the [*typing*](https://docs.python.org/3/library/typing.html?highlight=typing#module-typing) module, which lets you add hints about what the expected type for a variable should be.
+* Type hinting acts as in-line documentation for what the expected inputs and outputs for functions are.
+* **Mypy** is a tool that can scan your code for typing errors based on the type hints, which could lead to difficult-to-find bugs.
+* *A bonus of using type hinting is that - like with TDD - doing it forces you to slow down and consider what exactly you are coding.*

@@ -8,8 +8,9 @@ flask = "*"
 python-dotenv = "*"
 pytest = "*"
 pytest-flask = "*"
-black = "~=19.3b0"
+black = "*"
 safety = "*"
+mypy = "*"
 
 [dev-packages]
 
