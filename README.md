@@ -25,6 +25,8 @@ To run all pytest tests from the project's root directory:
 pipenv run python -m pytest
 ```
 
+Tests were written based on [this official flask guide.](https://flask.palletsprojects.com/en/1.1.x/testing/)
+
 #### Other Useful Commands
 
 ```shell
