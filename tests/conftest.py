@@ -30,7 +30,7 @@ def client():
 
 
 @pytest.fixture
-def init_database():
+def database():
     db.create_all()
 
     yield db
