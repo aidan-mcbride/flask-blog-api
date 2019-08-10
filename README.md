@@ -57,12 +57,6 @@ pipenv run black <dir>	# format all code in <dir> with black
 
 ## Development Notes
 
-### *To-Do List:*
-
-- [ ] [Refactor unit tests to match Eric Elliott style.](https://medium.com/javascript-scene/behavior-driven-development-bdd-and-functional-testing-62084ad7f1f2)
-- [ ] Add scalable configuration.
-  - [ ] Add configuration for development, testing, production.
-
 ### Continuous Integration
 
 >  For this project I will be using TravisCI, since that is what the tutorial I am following uses and I do not yet know enough about CI to make my own decisions.
@@ -130,3 +124,4 @@ pipenv run black <dir>	# format all code in <dir> with black
 * Type hinting acts as in-line documentation for what the expected inputs and outputs for functions are.
 * **Mypy** is a tool that can scan your code for typing errors based on the type hints, which could lead to difficult-to-find bugs.
 * *A bonus of using type hinting is that - like with TDD - doing it forces you to slow down and consider what exactly you are coding.*
+
