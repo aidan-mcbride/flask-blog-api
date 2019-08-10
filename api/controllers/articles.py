@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from api import db
-from api.models import Article
+from api.models import Article # type: ignore
 
 articles = Blueprint("articles", __name__, url_prefix="/articles")
 

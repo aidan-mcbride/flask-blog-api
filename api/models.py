@@ -1,3 +1,5 @@
+# type: ignore
+
 """
 models.py
 defines database models
