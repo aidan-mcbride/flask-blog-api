@@ -22,7 +22,28 @@ def get_all_articles() -> Tuple[Response, int]:
     for article in articles:
         article_data = dict()
         article_data["id"] = article.id
+        article_data["slug"] = article.slug
         article_data["title"] = article.title
         article_data["content"] = article.content
         response_data.append(article_data)
     return jsonify(response_data), 200
+
+
+@articles.route("/<string:slug>", methods=["GET"])
+def get_article_by_slug(slug: str):
+    """
+    GET: /articles/<slug>
+    Query database for first article with matching slug,
+    return json object containing article data
+    """
+    response_data = dict()
+    article = Article.query.filter_by(slug=slug).first()
+    if article:
+        response_data["id"] = article.id
+        response_data["title"] = article.title
+        response_data["slug"] = article.slug
+        response_data["content"] = article.content
+
+        return jsonify(response_data), 200
+    else:
+        return "", 404

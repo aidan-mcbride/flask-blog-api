@@ -94,16 +94,30 @@ class TestArticlesGetCollection(object):
 
         actual = rv.get_json()
         expected = [
-            {"id": 1, "title": "Test article 1", "content": "Lorem ipsum 123"},
-            {"id": 2, "title": "Test article 2", "content": "Lorem ipsum 123"},
-            {"id": 3, "title": "Test article 3", "content": "Lorem ipsum 123"},
+            {
+                "id": 1,
+                "slug": "test-article-1",
+                "title": "Test article 1",
+                "content": "Lorem ipsum 123",
+            },
+            {
+                "id": 2,
+                "slug": "test-article-2",
+                "title": "Test article 2",
+                "content": "Lorem ipsum 123",
+            },
+            {
+                "id": 3,
+                "slug": "test-article-3",
+                "title": "Test article 3",
+                "content": "Lorem ipsum 123",
+            },
         ]
         assert actual == expected
 
         actual = rv.status_code
         expected = 200
         assert actual == expected
-
 
 
 # GET ARTICLE RESOURCE (SINGLE ARTICLE)
@@ -118,7 +132,12 @@ class TestArticlesGetResource(object):
         rv = client.get("/articles/test-article-1")
 
         actual = rv.get_json()
-        expected = {"id": 1, "slug": "test-article-1", "title": "Test article 1", "content": "Lorem ipsum 123"}
+        expected = {
+            "id": 1,
+            "slug": "test-article-1",
+            "title": "Test article 1",
+            "content": "Lorem ipsum 123",
+        }
         assert actual == expected
 
         actual = rv.status_code

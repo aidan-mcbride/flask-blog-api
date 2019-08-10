@@ -12,6 +12,7 @@ black = "==19.3b0"
 safety = "*"
 mypy = "*"
 flask-sqlalchemy = "*"
+python-slugify = "*"
 
 [dev-packages]
 
