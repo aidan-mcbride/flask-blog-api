@@ -61,7 +61,7 @@ def mock_articles(database):
 #### with an empty database?
 ###########################
 
-
+# GET ARTICLES COLLECTION (ALL ARTICLES)
 class TestArticlesGetCollection(object):
     # must specify client fixture as argument
     # because it is used explicitly within the test
@@ -85,7 +85,7 @@ class TestArticlesGetCollection(object):
 
     def test_get_all_articles(self, client, mock_articles):
         """
-        GIVEN a database containing three mock users
+        GIVEN a database containing three mock articles
         WHEN a GET request is made to '/articles/'
         THEN return an array of articles
             AND return a 200 status code
@@ -98,6 +98,27 @@ class TestArticlesGetCollection(object):
             {"id": 2, "title": "Test article 2", "content": "Lorem ipsum 123"},
             {"id": 3, "title": "Test article 3", "content": "Lorem ipsum 123"},
         ]
+        assert actual == expected
+
+        actual = rv.status_code
+        expected = 200
+        assert actual == expected
+
+
+
+# GET ARTICLE RESOURCE (SINGLE ARTICLE)
+class TestArticlesGetResource(object):
+    def test_get_article_by_slug(self, client, mock_articles):
+        """
+        GIVEN a database containing three mock articles
+        WHEN a GET request is made to '/articles/<slug>'
+        THEN return an object containing the requested article.
+            AND return a 200 status code
+        """
+        rv = client.get("/articles/test-article-1")
+
+        actual = rv.get_json()
+        expected = {"id": 1, "slug": "test-article-1", "title": "Test article 1", "content": "Lorem ipsum 123"}
         assert actual == expected
 
         actual = rv.status_code
