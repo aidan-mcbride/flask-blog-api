@@ -8,12 +8,13 @@ import pytest
 from flask import Flask
 from api import create_app, db
 
+
 @pytest.fixture
 def client():
     """
     create instance of flask app with test client
     """
-    flask_app = create_app('testing')
+    flask_app = create_app("testing")
     test_client = flask_app.test_client()
 
     # create app context
