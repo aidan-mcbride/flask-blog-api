@@ -44,7 +44,6 @@ def mock_articles(database):
     db.session.commit()
 
 
-
 ####################
 #### UNIT TESTS ####
 ####################
@@ -74,7 +73,7 @@ class TestArticlesGetCollection(object):
         THEN return an empty json array
             AND return a 200 status code
         """
-        rv = client.get('/articles/')
+        rv = client.get("/articles/")
 
         actual = rv.get_json()
         expected = []
