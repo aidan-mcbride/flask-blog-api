@@ -69,7 +69,7 @@ class TestArticlesGetCollection(object):
     def test_get_empty_articles(self, client):
         """
         GIVEN a database containing no articles
-        WHEN a GET request is made to the articles root
+        WHEN a GET request is made to '/articles/'
         THEN return an empty json array
             AND return a 200 status code
         """
@@ -77,6 +77,27 @@ class TestArticlesGetCollection(object):
 
         actual = rv.get_json()
         expected = []
+        assert actual == expected
+
+        actual = rv.status_code
+        expected = 200
+        assert actual == expected
+
+    def test_get_all_articles(self, client, mock_articles):
+        """
+        GIVEN a database containing three mock users
+        WHEN a GET request is made to '/articles/'
+        THEN return an array of articles
+            AND return a 200 status code
+        """
+        rv = client.get("/articles/")
+
+        actual = rv.get_json()
+        expected = [
+            {"id": 1, "title": "Test article 1", "content": "Lorem ipsum 123"},
+            {"id": 2, "title": "Test article 2", "content": "Lorem ipsum 123"},
+            {"id": 3, "title": "Test article 3", "content": "Lorem ipsum 123"},
+        ]
         assert actual == expected
 
         actual = rv.status_code
