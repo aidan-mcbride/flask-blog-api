@@ -3,7 +3,7 @@ from datetime import datetime
 from api.models import Article
 
 
-def test_create_article() -> Article:
+def test_create_article():
     """
     GIVEN the model for an article
     WHEN article data is passed in
