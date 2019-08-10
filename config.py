@@ -40,4 +40,5 @@ class TestingConfig(Config):
 
     TESTING = True
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///../flask_blog_api_testing.db"
+    # create test database in memory
+    SQLALCHEMY_DATABASE_URI = "sqlite://:memory:"
