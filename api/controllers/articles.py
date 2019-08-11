@@ -3,15 +3,12 @@ from flask import Blueprint, jsonify, request
 from api import db
 from api.models import Article  # type: ignore
 
-# typing imports
-from typing import Tuple
-from flask import Response
 
 articles = Blueprint("articles", __name__, url_prefix="/articles")
 
 
 @articles.route("/", methods=["GET"])
-def get_all_articles() -> Tuple[Response, int]:
+def get_all_articles():
     """
     GET /articles/
     Query database for all articles,
