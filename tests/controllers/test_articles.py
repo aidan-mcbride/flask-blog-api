@@ -5,6 +5,7 @@ Contains fixtures, unit tests, and integration tests for 'api/controllers/articl
 """
 
 import pytest
+import datetime
 
 from api.models import Article
 
@@ -160,3 +161,31 @@ class TestArticlesGetResource(object):
         actual = rv.get_json()
         expected = {"error": "article not found"}
         assert actual == expected
+
+
+# TEST CREATE NEW ARTICLE
+class TestArticlesCreateResource(object):
+    def test_create_article(self, client):
+        """
+        GIVEN a database
+        WHEN a POST request is made to articles root
+        THEN create a new article in the database
+            AND return that article as a json object
+            AND return a 201(created) status code
+        """
+        new_article = dict(title="Test Article", content="Lorem ipsum 123")
+
+        rv = client.post("/articles/", json=new_article)
+
+        actual = rv.status_code
+        expected = 201
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(
+            title="Test Article", slug="test-article", content="Lorem ipsum 123"
+        )
+        assert actual["title"] == expected["title"]
+        assert actual["slug"] == expected["slug"]
+        assert actual["content"] == expected["content"]
+        assert actual["date_created"]

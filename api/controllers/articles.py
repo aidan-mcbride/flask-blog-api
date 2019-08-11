@@ -7,23 +7,58 @@ from api.models import Article  # type: ignore
 articles = Blueprint("articles", __name__, url_prefix="/articles")
 
 
-@articles.route("/", methods=["GET"])
-def get_all_articles():
-    """
-    GET /articles/
-    Query database for all articles,
-    return all data as json
-    """
-    response_data = list()
-    articles = Article.query.all()
-    for article in articles:
-        article_data = dict()
-        article_data["id"] = article.id
-        article_data["slug"] = article.slug
-        article_data["title"] = article.title
-        article_data["content"] = article.content
-        response_data.append(article_data)
-    return jsonify(response_data), 200
+@articles.route("/", methods=["GET", "POST"])
+def all_articles():
+    if request.method == "GET":
+        """
+        GET /articles/
+        Query database for all articles,
+        return all data as json
+        """
+        response_data = list()
+        articles = Article.query.all()
+        for article in articles:
+            article_data = dict()
+            article_data["id"] = article.id
+            article_data["slug"] = article.slug
+            article_data["title"] = article.title
+            article_data["content"] = article.content
+            response_data.append(article_data)
+        return jsonify(response_data), 200
+
+    if request.method == "POST":
+        """
+        POST to /articles/
+        Create new article from request json
+        return newly-created article as response with 201 status code.
+        """
+        # TODO:
+        # - create mapper?
+        # - abstract to function that accepts request json
+        #   and returns new Article instance?
+        #   put this function in Article class as method?
+        title: str = request.json["title"]
+        content: str = request.json["content"]
+
+        new_article: Article = Article(title=title, content=content)
+        db.session.add(new_article)
+        db.session.commit()
+
+        # retrieve newly-created article
+        # TODO:
+        # - abstract method to create response data from model?
+        # - put this in Article class? As __repr__ ?
+        slug: str = new_article.slug
+        new_article: Article = Article.query.filter_by(slug=slug).first()
+        response_data: dict = dict(
+            id=new_article.id,
+            title=new_article.title,
+            slug=new_article.slug,
+            content=new_article.content,
+            date_created=new_article.date_created,
+        )
+
+        return jsonify(response_data), 201
 
 
 @articles.route("/<string:slug>", methods=["GET"])
