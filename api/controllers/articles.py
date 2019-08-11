@@ -32,6 +32,18 @@ def all_articles():
         Create new article from request json
         return newly-created article as response with 201 status code.
         """
+
+        # validate request
+        # TODO:
+        # - abstract into function
+        # - class method?
+        if not request.json:
+            return jsonify({"error": "request body is missing or is invalid json"}), 400
+        if "title" not in request.json:
+            return jsonify({"error": "title is required"}), 400
+        if "content" not in request.json:
+            return jsonify({"error": "article body is required"}), 400
+
         # TODO:
         # - create mapper?
         # - abstract to function that accepts request json

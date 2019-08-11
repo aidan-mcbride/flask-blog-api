@@ -189,3 +189,56 @@ class TestArticlesCreateResource(object):
         assert actual["slug"] == expected["slug"]
         assert actual["content"] == expected["content"]
         assert actual["date_created"]
+
+    def test_create_article_no_request_body(self, client):
+        """
+        GIVEN ...
+        WHEN a POST is made with no request body
+        THEN return an error message
+            AND return a 400 status code
+        """
+        rv = client.post("/articles/")
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(error="request body is missing or is invalid json")
+        assert actual == expected
+
+    def test_create_article_missing_title(self, client):
+        """
+        GIVEN ...
+        WHEN a POST is made to articles, but the request body is missing a title
+        THEN return an error
+            AND return a 400 status code
+        """
+        request_data = dict(content="Lorem ipsum 123")
+        rv = client.post("/articles/", json=request_data)
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(error="title is required")
+        assert actual == expected
+
+    def test_create_article_missing_content(self, client):
+        """
+        GIVEN ...
+        WHEN a POST is made to articles, but the request body is missing the content of the article
+        THEN return an error
+            AND return a 400 status code
+        """
+        request_data = dict(title="Test title")
+        rv = client.post("/articles/", json=request_data)
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(error="article body is required")
+        assert actual == expected
