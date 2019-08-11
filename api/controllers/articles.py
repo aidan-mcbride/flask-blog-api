@@ -46,4 +46,4 @@ def get_article_by_slug(slug: str):
 
         return jsonify(response_data), 200
     else:
-        return "", 404
+        return jsonify({"error": "article not found"}), 404

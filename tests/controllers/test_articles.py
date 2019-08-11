@@ -144,7 +144,6 @@ class TestArticlesGetResource(object):
         }
         assert actual == expected
 
-
     def test_get_article_not_found(self, client):
         """
         GIVEN a database
