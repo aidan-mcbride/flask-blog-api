@@ -12,7 +12,8 @@ def test_create_article():
 
     actual = Article(title="Test Title", content="Post body")
 
-    expected = {"title": "Test Title", "content": "Post body"}
+    expected = {"title": "Test Title", "slug": "test-title", "content": "Post body"}
 
     assert actual.title == expected["title"]
+    assert actual.slug == expected["slug"]
     assert actual.content == expected["content"]
