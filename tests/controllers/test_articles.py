@@ -143,3 +143,20 @@ class TestArticlesGetResource(object):
         actual = rv.status_code
         expected = 200
         assert actual == expected
+
+    def test_get_article_not_found(self, client):
+        """
+        GIVEN a database
+        WHEN a GET request is made for an article that doesn't exist
+        THEN return an object containing an error message
+            AND return a 404 (not found) status code
+        """
+        rv = client.get("/articles/test-article-1")
+
+        actual = rv.status_code
+        expected = 404
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = {"error": "article not found"}
+        assert actual == expected
