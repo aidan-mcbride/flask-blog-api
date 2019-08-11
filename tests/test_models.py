@@ -10,9 +10,16 @@ def test_create_article():
     THEN return a database model for that article.
     """
 
-    actual = Article(title="Test Title", content="Post body")
+    # create time here so that actual and expected have same time; if created in model, time will differ.
+    time = datetime.utcnow()
 
-    expected = {"title": "Test Title", "slug": "test-title", "content": "Post body"}
+    actual = Article(title="Test Title", content="Post body", date_created=time)
+    expected = {
+        "title": "Test Title",
+        "slug": "test-title",
+        "content": "Post body",
+        "date_created": time,
+    }
 
     assert actual.title == expected["title"]
     assert actual.slug == expected["slug"]

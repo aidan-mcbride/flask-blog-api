@@ -26,11 +26,21 @@ class Article(db.Model):
     content = db.Column(db.String())
     date_created = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, title=None, slug=None, content=None, date_created=None):
-        self.title = title
-        self.slug = slugify(title)
-        self.content = content
-        self.date_created = date_created
+    def __init__(self, **kwargs):
+        """
+        Class Constructor
+        Flask-SQLAlchemy's base model class has a constructor that simply stores all given keyword arguments as-is.
+        If using a custom constructor, you can keep the base constructor by using super()
+        and then add any custom initialization after:
+        ---
+        see:
+        https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application
+        (towards bottom of first section)
+        https://stackoverflow.com/questions/20460339/flask-sqlalchemy-constructor
+        """
+        super(Article, self).__init__(**kwargs)
+        # custom initialization
+        self.slug = slugify(self.title)
 
     def __repr__(self):
         return "<Article {}>".format(self.title)
