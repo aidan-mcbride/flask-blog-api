@@ -18,7 +18,7 @@ class Article(db.Model):
     Model for articles/blog posts
     """
 
-    __tablename_ = "articles"
+    __tablename__ = "articles"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(280))
