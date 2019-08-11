@@ -131,6 +131,10 @@ class TestArticlesGetResource(object):
         """
         rv = client.get("/articles/test-article-1")
 
+        actual = rv.status_code
+        expected = 200
+        assert actual == expected
+
         actual = rv.get_json()
         expected = {
             "id": 1,
@@ -140,9 +144,6 @@ class TestArticlesGetResource(object):
         }
         assert actual == expected
 
-        actual = rv.status_code
-        expected = 200
-        assert actual == expected
 
     def test_get_article_not_found(self, client):
         """
