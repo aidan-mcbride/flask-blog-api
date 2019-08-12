@@ -69,6 +69,7 @@ def configure_app(config_class: Optional[str], app: Flask):
 def initialize_extensions(app: Flask):
     """
     bind instances of extensions to flask app instance
+    NOTE: db must be initialized before marshmallow
     """
     db.init_app(app)
     ma.init_app(app)

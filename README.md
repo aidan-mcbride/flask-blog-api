@@ -66,6 +66,11 @@ pipenv run black <dir>	# format all code in <dir> with black
 
 ## Development Notes
 
+#### [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/)
+
+* **Serializes and deserializes data:** converts complex data types like sqlalchemy models to primitive data types.
+* **'Schema'**: representation of data in model; instructions on how to convert data to and from complex objects.
+
 ### Continuous Integration
 
 >  For this project I will be using TravisCI, since that is what the tutorial I am following uses and I do not yet know enough about CI to make my own decisions.
