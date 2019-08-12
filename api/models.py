@@ -21,10 +21,10 @@ class Article(db.Model):
     __tablename__ = "articles"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(280))
+    title = db.Column(db.String(280), nullable=False)
     slug = db.Column(db.String(280), nullable=False)
-    content = db.Column(db.String())
-    date_created = db.Column(db.DateTime, default=datetime.now)
+    content = db.Column(db.String(), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
     def __init__(self, **kwargs):
         """
