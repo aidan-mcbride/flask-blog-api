@@ -10,12 +10,14 @@ from typing import Optional
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy  # type: ignore
+from flask_marshmallow import Marshmallow
 
 from . import controllers
 
 # create instances of extensions
 # instances are global, but are not yet attached to the app
 db = SQLAlchemy()
+ma = Marshmallow()
 
 #################################
 ## ~*~ APPLICATION FACTORY ~*~ ##
@@ -69,3 +71,4 @@ def initialize_extensions(app: Flask):
     bind instances of extensions to flask app instance
     """
     db.init_app(app)
+    ma.init_app(app)

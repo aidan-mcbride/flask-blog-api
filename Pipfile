@@ -13,6 +13,8 @@ safety = "*"
 mypy = "*"
 flask-sqlalchemy = "*"
 python-slugify = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
 
 [dev-packages]
 
