@@ -10,7 +10,7 @@ from typing import Optional
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy  # type: ignore
-from flask_marshmallow import Marshmallow
+from flask_marshmallow import Marshmallow  # type: ignore
 
 from . import controllers
 
