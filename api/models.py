@@ -10,7 +10,9 @@ https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 from datetime import datetime
 from slugify import slugify
 
-from api import db
+from marshmallow import post_load
+
+from api import db, ma
 
 
 class Article(db.Model):
@@ -22,9 +24,9 @@ class Article(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(280), nullable=False)
-    slug = db.Column(db.String(280), nullable=False)
+    slug = db.Column(db.String(280))
     content = db.Column(db.String(), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, **kwargs):
         """
@@ -43,4 +45,24 @@ class Article(db.Model):
         self.slug = slugify(self.title)
 
     def __repr__(self):
-        return "<Article {}>".format(self.title)
+        return article_schema.jsonify(self)
+
+
+class ArticleSchema(ma.ModelSchema):
+    class Meta:
+        model = Article
+
+    """
+    example of how to create slugs when doing schema.load()
+    """
+    # @post_load
+    # def create_slug(self, data):
+    #     data['slug'] = slugify(data['title'])
+    #     return data
+
+
+"""
+Initialize schemas to export
+"""
+article_schema = ArticleSchema()
+articles_schema = ArticleSchema(many=True)

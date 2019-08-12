@@ -7,7 +7,7 @@ Contains fixtures, unit tests, and integration tests for 'api/controllers/articl
 import pytest
 import datetime
 
-from api.models import Article
+from api.models import Article, article_schema
 
 """
 Use these fixtures for every test in this module:
@@ -29,9 +29,15 @@ pytestmark = pytest.mark.usefixtures("client", "database")
 def mock_articles(database):
     db = database
 
-    article_1 = Article(title="Test article 1", content="Lorem ipsum 123")
-    article_2 = Article(title="Test article 2", content="Lorem ipsum 123")
-    article_3 = Article(title="Test article 3", content="Lorem ipsum 123")
+    article_1, errors = article_schema.load(
+        dict(title="Test article 1", content="Lorem ipsum 123")
+    )
+    article_2, errors = article_schema.load(
+        dict(title="Test article 2", content="Lorem ipsum 123")
+    )
+    article_3, errors = article_schema.load(
+        dict(title="Test article 3", content="Lorem ipsum 123")
+    )
 
     db.session.add(article_1)
     db.session.add(article_2)
@@ -94,27 +100,20 @@ class TestArticlesGetCollection(object):
         rv = client.get("/articles/")
 
         actual = rv.get_json()
-        expected = [
-            {
-                "id": 1,
-                "slug": "test-article-1",
-                "title": "Test article 1",
-                "content": "Lorem ipsum 123",
-            },
-            {
-                "id": 2,
-                "slug": "test-article-2",
-                "title": "Test article 2",
-                "content": "Lorem ipsum 123",
-            },
-            {
-                "id": 3,
-                "slug": "test-article-3",
-                "title": "Test article 3",
-                "content": "Lorem ipsum 123",
-            },
-        ]
-        assert actual == expected
+        assert len(actual) is 3
+
+        actual = rv.get_json()[0]
+        expected = dict(
+            id=1,
+            title="Test article 1",
+            slug="test-article-1",
+            content="Lorem ipsum 123",
+        )
+        for key in actual.keys():
+            if key == "date_created":
+                assert key
+            else:
+                assert actual[key] == expected[key]
 
         actual = rv.status_code
         expected = 200
@@ -143,7 +142,11 @@ class TestArticlesGetResource(object):
             "title": "Test article 1",
             "content": "Lorem ipsum 123",
         }
-        assert actual == expected
+        for key in actual.keys():
+            if key == "date_created":
+                assert key
+            else:
+                assert actual[key] == expected[key]
 
     def test_get_article_not_found(self, client):
         """
@@ -222,7 +225,7 @@ class TestArticlesCreateResource(object):
         assert actual == expected
 
         actual = rv.get_json()
-        expected = dict(error="title is required")
+        expected = dict(title=["Missing data for required field."])
         assert actual == expected
 
     def test_create_article_missing_content(self, client):
@@ -240,7 +243,7 @@ class TestArticlesCreateResource(object):
         assert actual == expected
 
         actual = rv.get_json()
-        expected = dict(error="article body is required")
+        expected = dict(content=["Missing data for required field."])
         assert actual == expected
 
     # COMMENTED OUT WHILE INSTALLING FLASK-MARSHMALLOW

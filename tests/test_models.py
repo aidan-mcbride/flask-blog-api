@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from api.models import Article
+from api.models import Article, article_schema
 
 
 def test_create_article():
