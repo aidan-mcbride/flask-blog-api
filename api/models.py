@@ -10,7 +10,7 @@ https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 from datetime import datetime
 from slugify import slugify
 
-from marshmallow import fields, post_load, validates, ValidationError
+from marshmallow import fields, post_load, validates_schema, ValidationError
 
 from api import db, ma
 
@@ -53,11 +53,19 @@ class ArticleSchema(ma.ModelSchema):
         model = Article
 
     # can't validate slug since it hasn't been initialized yet.
-    @validates("title")
-    def validate_unique_title(self, value):
-        slugified_title = slugify(value)
-        if Article.query.filter_by(slug=slugified_title).first():
-            raise ValidationError("title must be unique")
+    @validates_schema(skip_on_field_errors=True)
+    def validate_unique_slug(self, data):
+        """
+        If new article (no id), slug must always be unique
+        If updating existing article, slug must be unique if it is changed.
+        """
+        slugified_title = slugify(data["title"])
+        query_result = Article.query.filter_by(slug=slugified_title).first()
+
+        if id not in data and query_result:
+            raise ValidationError("title must be unique", "title")
+        elif id in data and not query_result["slug"] == data["slug"]:
+            raise ValidationError("title must be unique", "title")
 
     """
     example of how to create slugs when doing schema.load()
