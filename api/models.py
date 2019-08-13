@@ -44,9 +44,6 @@ class Article(db.Model):
         # custom initialization
         self.slug = slugify(self.title)
 
-    def __repr__(self):
-        return article_schema.jsonify(self)
-
 
 class ArticleSchema(ma.ModelSchema):
     class Meta:
