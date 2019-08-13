@@ -24,7 +24,7 @@ class Article(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(280), nullable=False)
-    slug = db.Column(db.String(280))
+    slug = db.Column(db.String(280), index=True)
     content = db.Column(db.String(), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
