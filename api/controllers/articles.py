@@ -27,9 +27,23 @@ def all_articles():
         return article_schema.jsonify(new_article), 201
 
 
-@articles.route("/<string:slug>", methods=["GET"])
-def get_article_by_slug(slug: str):
-    article = Article.query.filter_by(slug=slug).first()
-    if not article:
-        return dict(error="article not found"), 404
-    return article_schema.jsonify(article)
+@articles.route("/<string:slug>", methods=["GET", "PUT"])
+def article_by_slug(slug: str):
+    if request.method == "GET":
+        article = Article.query.filter_by(slug=slug).first()
+        if not article:
+            return dict(error="article not found"), 404
+        return article_schema.jsonify(article)
+
+    if request.method == "PUT":
+        article = Article.query.filter_by(slug=slug).first()
+        if not article:
+            return dict(error="article not found"), 404
+
+        article, errors = article_schema.load(request.json)
+        if errors:
+            return jsonify(errors), 400
+
+        db.session.commit()
+
+        return article_schema.jsonify(article), 200

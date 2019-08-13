@@ -263,3 +263,31 @@ class TestArticlesCreateResource(object):
         actual = rv.get_json()
         expected = dict(title=["title must be unique"])
         assert actual == expected
+
+
+# TEST UPDATE EXISTING ARTICLE
+class TestArticlesUpdateResource(object):
+    def test_update_update(self, client, database, mock_articles):
+        """
+        GIVEN a database containing articles
+        WHEN a PUT request is made to an article resource
+        THEN update the given article in the database
+            AND return the updated article as json object
+            AND return a 200 status code
+        """
+        article_update = dict(
+            title="New Title", slug="test-article-1", content="New article body"
+        )
+
+        rv = client.put(
+            "/articles/{}".format(article_update["slug"]), json=article_update
+        )
+
+        actual = rv.status_code
+        expected = 200
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = article_update
+        for key in expected.keys():
+            assert actual[key] == expected[key]

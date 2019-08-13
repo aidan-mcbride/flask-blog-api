@@ -42,7 +42,10 @@ class Article(db.Model):
         """
         super(Article, self).__init__(**kwargs)
         # custom initialization
-        self.slug = slugify(self.title)
+        # slug is created only once:
+        # updated articles can change title and keep slug
+        if not self.slug:
+            self.slug = slugify(self.title)
 
 
 class ArticleSchema(ma.ModelSchema):
