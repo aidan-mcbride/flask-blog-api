@@ -13,7 +13,9 @@ def test_create_article():
     # create time here so that actual and expected have same time; if created in model, time will differ.
     time: datetime = datetime.now(timezone.utc)
 
-    actual: Article = Article(title="Test Title", content="Post body", date_created=time)
+    actual: Article = Article(
+        title="Test Title", content="Post body", date_created=time
+    )
     expected: dict = {
         "title": "Test Title",
         "slug": "test-title",
@@ -33,7 +35,9 @@ def test_serialize_article_to_dict():
     THEN return a dictionary containing the data from that object, including data that is initialized in the Article constructor
     """
     time: datetime = datetime.now(timezone.utc)
-    article: Article = Article(title="Test Title", content="Post body", date_created=time)
+    article: Article = Article(
+        title="Test Title", content="Post body", date_created=time
+    )
 
     actual: dict = article_schema.dump(article).data
     expected: dict = dict(
@@ -46,7 +50,8 @@ def test_serialize_article_to_dict():
         assert actual[key] == expected[key]
 
 
-def test_deserialize_article_to_article_instance():
+# must use database fixture for title validation
+def test_deserialize_article_to_article_instance(client, database):
     time: datetime = datetime.now()
     input_time: str = time.isoformat()
     article_data: dict = dict(
@@ -54,7 +59,9 @@ def test_deserialize_article_to_article_instance():
     )
 
     actual: Article = article_schema.load(article_data).data
-    expected: Article = Article(title="Test Title", content="Post body", date_created=time)
+    expected: Article = Article(
+        title="Test Title", content="Post body", date_created=time
+    )
 
     assert actual.title == expected.title
     assert actual.slug == expected.slug
