@@ -287,19 +287,25 @@ class TestArticlesUpdateResource(object):
         expected = 200
         assert actual == expected
 
+        # check response contains updated record
         actual = rv.get_json()
         expected = article_update
         for key in expected.keys():
             assert actual[key] == expected[key]
 
+        # check that a new database record was not created
         actual = len(client.get("/articles/").get_json())
         expected = 3
         assert actual == expected
 
+        # test that the database record was actually updated
         actual = client.get("/articles/{}".format(article_update["slug"])).get_json()
         expected = article_update
         for key in expected.keys():
             assert actual[key] == expected[key]
+
+    def test_update_article_new_slug(self, client, database, mock_articles):
+        pass
 
     def test_update_article_to_existing_title(self, client, database, mock_articles):
         """
@@ -322,4 +328,57 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.get_json()
         expected = dict(title=["title must be unique"])
+        assert actual == expected
+
+    def test_update_article_no_request_body(self, client, mock_articles):
+        """
+        GIVEN ...
+        WHEN a PUT is made to an article with no request body
+        THEN return an error message
+            AND return a 400 status code
+        """
+        rv = client.put("/articles/test-article-1")
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(error="request body is missing or is invalid json")
+        assert actual == expected
+
+    def test_update_article_missing_title(self, client, mock_articles):
+        """
+        GIVEN ...
+        WHEN a PUT is made to articles, but the request body is missing a title
+        THEN return an error
+            AND return a 400 status code
+        """
+        request_data = dict(content="Lorem ipsum 123")
+        rv = client.put("/articles/test-article-1", json=request_data)
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(title=["Missing data for required field."])
+        assert actual == expected
+
+    def test_update_article_missing_content(self, client, mock_articles):
+        """
+        GIVEN ...
+        WHEN a PUT is made to articles, but the request body is missing the content of the article
+        THEN return an error
+            AND return a 400 status code
+        """
+        request_data = dict(title="Test article 1", slug="test-article-1")
+        rv = client.put("/articles/test-article-1", json=request_data)
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(content=["Missing data for required field."])
         assert actual == expected

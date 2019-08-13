@@ -39,9 +39,11 @@ def article_by_slug(slug: str):
         article = Article.query.filter_by(slug=slug).first()
         if not article:
             return dict(error="article not found"), 404
+        if not request.json:
+            return jsonify({"error": "request body is missing or is invalid json"}), 400
 
         """
-        update instance
+        update article instance:
         ---
         https://marshmallow-sqlalchemy.readthedocs.io/en/latest/api_reference.html#marshmallow_sqlalchemy.ModelSchema.load
         """
