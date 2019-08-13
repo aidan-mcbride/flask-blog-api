@@ -267,7 +267,7 @@ class TestArticlesCreateResource(object):
 
 # TEST UPDATE EXISTING ARTICLE
 class TestArticlesUpdateResource(object):
-    def test_update_update(self, client, database, mock_articles):
+    def test_update_article(self, client, database, mock_articles):
         """
         GIVEN a database containing articles
         WHEN a PUT request is made to an article resource
@@ -291,3 +291,35 @@ class TestArticlesUpdateResource(object):
         expected = article_update
         for key in expected.keys():
             assert actual[key] == expected[key]
+
+        actual = len(client.get("/articles/").get_json())
+        expected = 3
+        assert actual == expected
+
+        actual = client.get("/articles/{}".format(article_update["slug"])).get_json()
+        expected = article_update
+        for key in expected.keys():
+            assert actual[key] == expected[key]
+
+    def test_update_article_to_existing_title(self, client, database, mock_articles):
+        """
+        GIVEN a database containing articles
+        WHEN a PUT request is made to an article resource containing an updated title that is the same as an existing title
+        THEN return an error
+            AND return a 400 status code
+        """
+        article_update = dict(
+            title="Test article 2", slug="test-article-2", content="New article body"
+        )
+
+        rv = client.put(
+            "/articles/{}".format(article_update["slug"]), json=article_update
+        )
+
+        actual = rv.status_code
+        expected = 400
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(title=["title must be unique"])
+        assert actual == expected

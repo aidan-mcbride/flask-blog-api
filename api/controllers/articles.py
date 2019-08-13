@@ -40,7 +40,12 @@ def article_by_slug(slug: str):
         if not article:
             return dict(error="article not found"), 404
 
-        article, errors = article_schema.load(request.json)
+        """
+        update instance
+        ---
+        https://marshmallow-sqlalchemy.readthedocs.io/en/latest/api_reference.html#marshmallow_sqlalchemy.ModelSchema.load
+        """
+        article, errors = article_schema.load(request.json, instance=article)
         if errors:
             return jsonify(errors), 400
 
