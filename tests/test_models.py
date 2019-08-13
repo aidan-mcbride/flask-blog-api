@@ -25,6 +25,7 @@ def test_create_article():
     assert actual.slug == expected["slug"]
     assert actual.content == expected["content"]
 
+
 def test_serialize_article():
     """
     GIVEN an Article object created from a dictionary
@@ -35,14 +36,22 @@ def test_serialize_article():
     article = Article(title="Test Title", content="Post body", date_created=time)
 
     actual: dict = article_schema.dump(article).data
-    expected: dict = dict(title="Test Title", slug="test-title", content="Post body", date_created=time.isoformat())
+    expected: dict = dict(
+        title="Test Title",
+        slug="test-title",
+        content="Post body",
+        date_created=time.isoformat(),
+    )
     for key in expected.keys():
         assert actual[key] == expected[key]
 
+
 def test_deserialize_article():
-    time: datetime = datetime.now(timezone.utc)
+    time: datetime = datetime.now()
     input_time: str = time.isoformat()
-    article_data = dict(title="Test Title", content="Post body", date_created=input_time)
+    article_data = dict(
+        title="Test Title", content="Post body", date_created=input_time
+    )
 
     actual = article_schema.load(article_data).data
     expected = Article(title="Test Title", content="Post body", date_created=time)
