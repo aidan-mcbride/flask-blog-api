@@ -32,12 +32,15 @@ def create_app(config_class: Optional[str] = None) -> Flask:
     configure_app(config_class, app)
     initialize_extensions(app)
 
-    # create database
-    with app.app_context():
-        db.create_all()
-
     # register blueprints in controllers
     controllers.init_app(app)
+
+    # create database
+    # NOTE: database must be created after initializing blueprints
+    # because database models are imported into blueprints
+    # otherwise, no tables are created.
+    with app.app_context():
+        db.create_all()
 
     return app
 
