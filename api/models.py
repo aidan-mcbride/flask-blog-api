@@ -56,15 +56,20 @@ class ArticleSchema(ma.ModelSchema):
     def validate_unique_slug(self, data):
         """
         If new article (no id), slug must always be unique
-        If updating existing article, slug must be unique if it is changed.
+        Slug cannot be changed once article is created:
+        don't need to validate on update
         """
         slugified_title = slugify(data["title"])
         query_result = Article.query.filter_by(slug=slugified_title).first()
 
         if id not in data and query_result:
             raise ValidationError("title must be unique", "title")
-        elif id in data and not query_result["slug"] == data["slug"]:
-            raise ValidationError("title must be unique", "title")
+        # ALT:
+        # If updating existing article, slug must be unique if it is changed.
+
+        # validation if slug can be changed in update
+        # elif id in data and not query_result["slug"] == data["slug"]:
+        #     raise ValidationError("title must be unique", "title")
 
     """
     example of how to create slugs when doing schema.load()
