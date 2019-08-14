@@ -283,6 +283,8 @@ class TestArticlesUpdateResource(object):
         expected = 200
         assert actual == expected
 
+        # set by server
+        article_update["slug"] = "test-article-1"
         # check response contains updated record
         actual = rv.get_json()
         expected = article_update
