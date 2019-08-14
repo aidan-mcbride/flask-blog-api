@@ -275,13 +275,9 @@ class TestArticlesUpdateResource(object):
             AND return the updated article as json object
             AND return a 200 status code
         """
-        article_update = dict(
-            title="New Title", content="New article body"
-        )
+        article_update = dict(title="New Title", content="New article body")
 
-        rv = client.put(
-            "/articles/test-article-1", json=article_update
-        )
+        rv = client.put("/articles/test-article-1", json=article_update)
 
         actual = rv.status_code
         expected = 200
@@ -311,13 +307,9 @@ class TestArticlesUpdateResource(object):
         THEN return an error
             AND return a 400 status code
         """
-        article_update = dict(
-            title="Test article 2", content="New article body"
-        )
+        article_update = dict(title="Test article 2", content="New article body")
 
-        rv = client.put(
-            "/articles/test-article-2", json=article_update
-        )
+        rv = client.put("/articles/test-article-2", json=article_update)
 
         actual = rv.status_code
         expected = 400
