@@ -276,11 +276,11 @@ class TestArticlesUpdateResource(object):
             AND return a 200 status code
         """
         article_update = dict(
-            title="New Title", slug="test-article-1", content="New article body"
+            title="New Title", content="New article body"
         )
 
         rv = client.put(
-            "/articles/{}".format(article_update["slug"]), json=article_update
+            "/articles/test-article-1", json=article_update
         )
 
         actual = rv.status_code
@@ -299,13 +299,10 @@ class TestArticlesUpdateResource(object):
         assert actual == expected
 
         # test that the database record was actually updated
-        actual = client.get("/articles/{}".format(article_update["slug"])).get_json()
+        actual = client.get("/articles/test-article-1").get_json()
         expected = article_update
         for key in expected.keys():
             assert actual[key] == expected[key]
-
-    def test_update_article_new_slug(self, client, database, mock_articles):
-        pass
 
     def test_update_article_to_existing_title(self, client, database, mock_articles):
         """
@@ -315,11 +312,11 @@ class TestArticlesUpdateResource(object):
             AND return a 400 status code
         """
         article_update = dict(
-            title="Test article 2", slug="test-article-2", content="New article body"
+            title="Test article 2", content="New article body"
         )
 
         rv = client.put(
-            "/articles/{}".format(article_update["slug"]), json=article_update
+            "/articles/test-article-2", json=article_update
         )
 
         actual = rv.status_code
@@ -372,7 +369,7 @@ class TestArticlesUpdateResource(object):
         THEN return an error
             AND return a 400 status code
         """
-        request_data = dict(title="Test article 1", slug="test-article-1")
+        request_data = dict(title="Test article 1")
         rv = client.put("/articles/test-article-1", json=request_data)
 
         actual = rv.status_code
