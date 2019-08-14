@@ -84,11 +84,11 @@ class TestArticlesGetCollection(object):
 
         actual = rv.get_json()
         expected = []
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.status_code
         expected = 200
-        assert actual == expected
+        assert expected == actual
 
     def test_get_all_articles(self, client, mock_articles):
         """
@@ -117,7 +117,7 @@ class TestArticlesGetCollection(object):
 
         actual = rv.status_code
         expected = 200
-        assert actual == expected
+        assert expected == actual
 
 
 # GET ARTICLE RESOURCE (SINGLE ARTICLE)
@@ -133,7 +133,7 @@ class TestArticlesGetResource(object):
 
         actual = rv.status_code
         expected = 200
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = {
@@ -159,11 +159,11 @@ class TestArticlesGetResource(object):
 
         actual = rv.status_code
         expected = 404
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = {"error": "article not found"}
-        assert actual == expected
+        assert expected == actual
 
 
 # TEST CREATE NEW ARTICLE
@@ -182,7 +182,7 @@ class TestArticlesCreateResource(object):
 
         actual = rv.status_code
         expected = 201
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(
@@ -204,11 +204,11 @@ class TestArticlesCreateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(error="request body is missing or is invalid json")
-        assert actual == expected
+        assert expected == actual
 
     def test_create_article_missing_title(self, client):
         """
@@ -222,11 +222,11 @@ class TestArticlesCreateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(title=["Missing data for required field."])
-        assert actual == expected
+        assert expected == actual
 
     def test_create_article_missing_content(self, client):
         """
@@ -240,11 +240,11 @@ class TestArticlesCreateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(content=["Missing data for required field."])
-        assert actual == expected
+        assert expected == actual
 
     def test_create_article_unique_title(self, client, mock_articles):
         """
@@ -258,11 +258,11 @@ class TestArticlesCreateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(title=["title must be unique"])
-        assert actual == expected
+        assert expected == actual
 
 
 # TEST UPDATE EXISTING ARTICLE
@@ -281,7 +281,7 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.status_code
         expected = 200
-        assert actual == expected
+        assert expected == actual
 
         # set by server
         article_update["slug"] = "test-article-1"
@@ -294,7 +294,7 @@ class TestArticlesUpdateResource(object):
         # check that a new database record was not created
         actual = len(client.get("/articles/").get_json())
         expected = 3
-        assert actual == expected
+        assert expected == actual
 
         # test that the database record was actually updated
         actual = client.get("/articles/test-article-1").get_json()
@@ -315,11 +315,11 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(title=["title must be unique"])
-        assert actual == expected
+        assert expected == actual
 
     def test_update_article_no_request_body(self, client, mock_articles):
         """
@@ -332,11 +332,11 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(error="request body is missing or is invalid json")
-        assert actual == expected
+        assert expected == actual
 
     def test_update_article_missing_title(self, client, mock_articles):
         """
@@ -350,11 +350,11 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(title=["Missing data for required field."])
-        assert actual == expected
+        assert expected == actual
 
     def test_update_article_missing_content(self, client, mock_articles):
         """
@@ -368,11 +368,11 @@ class TestArticlesUpdateResource(object):
 
         actual = rv.status_code
         expected = 400
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(content=["Missing data for required field."])
-        assert actual == expected
+        assert expected == actual
 
 
 class TestArticlesDeleteResource(object):
@@ -385,16 +385,16 @@ class TestArticlesDeleteResource(object):
         """
         actual = client.delete("/articles/test-article-1").status_code
         expected = 204
-        assert actual == expected
+        assert expected == actual
 
         # test user really gone
         actual = len(client.get("/articles/").get_json())
         expected = 2
-        assert actual == expected
+        assert expected == actual
 
         actual = client.get("/articles/test-article-1").status_code
         expected = 404
-        assert actual == expected
+        assert expected == actual
 
     def test_delete_article_not_found(self, client):
         """
@@ -405,8 +405,8 @@ class TestArticlesDeleteResource(object):
         rv = client.delete("/articles/test-article-99")
         actual = rv.status_code
         expected = 404
-        assert actual == expected
+        assert expected == actual
 
         actual = rv.get_json()
         expected = dict(error="article not found")
-        assert actual == expected
+        assert expected == actual
