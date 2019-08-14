@@ -27,7 +27,7 @@ def all_articles():
         return article_schema.jsonify(new_article), 201
 
 
-@articles.route("/<string:slug>", methods=["GET", "PUT"])
+@articles.route("/<string:slug>", methods=["GET", "PUT", "DELETE"])
 def article_by_slug(slug: str):
     if request.method == "GET":
         article = Article.query.filter_by(slug=slug).first()
@@ -54,3 +54,11 @@ def article_by_slug(slug: str):
         db.session.commit()
 
         return article_schema.jsonify(article), 200
+
+    if request.method == "DELETE":
+        article = Article.query.filter_by(slug=slug).first()
+        if not article:
+            return dict(error="article not found"), 404
+        db.session.delete(article)
+        db.session.commit()
+        return "", 204

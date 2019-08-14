@@ -373,3 +373,40 @@ class TestArticlesUpdateResource(object):
         actual = rv.get_json()
         expected = dict(content=["Missing data for required field."])
         assert actual == expected
+
+
+class TestArticlesDeleteResource(object):
+    def test_delete_article_by_slug_response(self, client, mock_articles):
+        """
+        GIVEN a database containing users
+        WHEN a DELETE request is made to '/articles/<slug>'
+        THEN delete that article from the database
+            AND return a 204(no content) status code.
+        """
+        actual = client.delete("/articles/test-article-1").status_code
+        expected = 204
+        assert actual == expected
+
+        # test user really gone
+        actual = len(client.get("/articles/").get_json())
+        expected = 2
+        assert actual == expected
+
+        actual = client.get("/articles/test-article-1").status_code
+        expected = 404
+        assert actual == expected
+
+    def test_delete_article_not_found(self, client):
+        """
+        GIVEN a database
+        WHEN a DELETE request is made for an article that doesn't exist
+        THEN return a 404 (not found) error status code
+        """
+        rv = client.delete("/articles/test-article-99")
+        actual = rv.status_code
+        expected = 404
+        assert actual == expected
+
+        actual = rv.get_json()
+        expected = dict(error="article not found")
+        assert actual == expected
