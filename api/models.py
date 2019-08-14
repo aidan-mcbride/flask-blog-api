@@ -63,7 +63,7 @@ class ArticleSchema(ma.ModelSchema):
         query_result = Article.query.filter_by(slug=slugified_title).first()
 
         if id not in data and query_result:
-            raise ValidationError("title must be unique", "title")
+            raise ValidationError("Must be unique.", "title")
         # ALT:
         # If updating existing article, slug must be unique if it is changed.
 
