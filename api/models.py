@@ -44,8 +44,7 @@ class Article(db.Model):
         # custom initialization
         # slug is created only once:
         # updated articles can change title and keep slug
-        if not self.slug:
-            self.slug = slugify(self.title)
+        self.slug = slugify(self.title)
 
 
 class ArticleSchema(ma.ModelSchema):
