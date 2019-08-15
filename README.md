@@ -63,3 +63,4 @@ tools/integrate.sh		# runs same scripts as .travis.yml
 
 ### References
 * [Dylan Anthony - Flask REST API tutorial](https://dev.to/dbanty/python-rest-api-flask-basics-3ffn)
+* [Vincent Marcal - Dockerize a flask app](https://www.vicentemarcal.com/2019/03/05/dockerize-a-flask-app/)
